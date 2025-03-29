@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSchedule - Doctors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --dark-green: #388E3C;
+            --light-green: #C8E6C9;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --alert-red: #F44336;
+            --animation-time: 0.4s;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--animation-time), color var(--animation-time);
+        }
+
+        .header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .content-area {
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: transform var(--animation-time), box-shadow var(--animation-time);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--dark-green);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            color: var(--dark-green);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: var(--primary-green);
+            color: white;
+            transition: background-color var(--animation-time), transform var(--animation-time);
+        }
+
+        .btn:hover {
+            background-color: var(--dark-green);
+            transform: scale(1.05);
+        }
+
+        .doctor-list {
+            margin-top: 20px;
+        }
+
+        .doctor-item {
+            padding: 1rem;
+            background-color: var(--light-green);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: transform var(--animation-time), box-shadow var(--animation-time);
+        }
+
+        .doctor-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-user-md logo-icon"></i>
+            <span>MedSchedule - Doctors</span>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Manage Doctors</h2>
+                <button class="btn" id="add-doctor">Add Doctor</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Search Doctor</label>
+                <input type="text" class="form-control" id="search-doctor" placeholder="Search by name or ID">
+            </div>
+
+            <div class="doctor-list" id="doctor-list">
+                <!-- Existing doctors will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample doctor data
+        const doctorsData = [
+            { id: 1, name: 'Dr. Emily Wilson', specialty: 'Cardiology', phone: '123-456-7890', email: 'ewilson@example.com' },
+            { id: 2, name: 'Dr. Michael Chen', specialty: 'Dermatology', phone: '987-654-3210', email: 'mchen@example.com' },
+            { id: 3, name: 'Dr. Jessica Lee', specialty: 'Pediatrics', phone: '555-123-4567', email: 'jlee@example.com' },
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadDoctors();
+
+            document.getElementById('add-doctor').addEventListener('click', addDoctor);
+            document.getElementById('search-doctor').addEventListener('input', searchDoctor);
+        });
+
+        function loadDoctors() {
+            const doctorListContainer = document.getElementById('doctor-list');
+            doctorListContainer.innerHTML = ''; // clear existing doctors
+
+            doctorsData.forEach(doctor => {
+                const doctorItem = document.createElement('div');
+                doctorItem.className = 'doctor-item';
+                doctorItem.innerHTML = `
+                    <strong>${doctor.name}</strong><br>
+                    Specialty: ${doctor.specialty}<br>
+                    Phone: ${doctor.phone}<br>
+                    Email: ${doctor.email}
+                `;
+                doctorListContainer.appendChild(doctorItem);
+            });
+        }
+
+        function addDoctor() {
+            const name = prompt("Enter doctor's name:");
+            const specialty = prompt("Enter doctor's specialty:");
+            const phone = prompt("Enter doctor's phone number:");
+            const email = prompt("Enter doctor's email:");
+
+            if (name && specialty && phone && email) {
+                const newDoctor = {
+                    id: doctorsData.length + 1,
+                    name: name,
+                    specialty: specialty,
+                    phone: phone,
+                    email: email
+                };
+                doctorsData.push(newDoctor);
+                loadDoctors();
+            }
+        }
+
+        function searchDoctor() {
+            const searchTerm = document.getElementById('search-doctor').value.toLowerCase();
+            const filteredDoctors = doctorsData.filter(doctor =>
+                doctor.name.toLowerCase().includes(searchTerm) ||
+                doctor.specialty.toLowerCase().includes(searchTerm) ||
+                doctor.id.toString().includes(searchTerm)
+            );
+
+            const doctorListContainer = document.getElementById('doctor-list');
+            doctorListContainer.innerHTML = ''; // clear existing doctors
+
+            filteredDoctors.forEach(doctor => {
+                const doctorItem = document.createElement('div');
+                doctorItem.className = 'doctor-item';
+                doctorItem.innerHTML = `
+                    <strong>${doctor.name}</strong><br>
+                    Specialty: ${doctor.specialty}<br>
+                    Phone: ${doctor.phone}<br>
+                    Email: ${doctor.email}
+                `;
+                doctorListContainer.appendChild(doctorItem);
+            });
+        }
+    </script>
+</body>
+
+</html>

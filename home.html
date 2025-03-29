@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSchedule - Doctor Appointment System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+          --primary-green: #4CAF50;
+          --dark-green: #388E3C;
+          --light-green: #C8E6C9;
+          --white: #FFFFFF;
+          --light-gray: #F5F5F5;
+          --dark-gray: #333333;
+          --alert-red: #F44336;
+        }
+
+        body {
+          font-family: 'Roboto', sans-serif;
+          background-color: var(--light-gray);
+          color: var(--dark-gray);
+          margin: 0;
+          padding: 0;
+        }
+
+        .header {
+          background-color: var(--primary-green);
+          color: var(--white);
+          padding: 1rem 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+          font-size: 1.5rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+        }
+
+        .logo-icon {
+          margin-right: 10px;
+          font-size: 2rem;
+        }
+
+        .nav-menu {
+          display: flex;
+        }
+
+        .nav-menu a {
+          color: var(--white);
+          text-decoration: none;
+          margin-left: 1.5rem;
+          font-weight: 500;
+          transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+          opacity: 0.8;
+        }
+
+        .main-container {
+          display: flex;
+          min-height: calc(100vh - 72px);
+        }
+
+        .sidebar {
+          width: 250px;
+          background-color: var(--white);
+          padding: 1.5rem;
+          box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-menu {
+          list-style: none;
+          padding: 0;
+        }
+
+        .sidebar-menu li {
+          margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+          display: block;
+          padding: 0.75rem 1rem;
+          color: var(--dark-gray);
+          text-decoration: none;
+          border-radius: 4px;
+          transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+          background-color: var(--light-green);
+          color: var(--dark-green);
+          font-weight: 500;
+        }
+
+        .sidebar-menu i {
+          margin-right: 10px;
+          width: 20px;
+          text-align: center;
+        }
+
+        .content-area {
+          flex: 1;
+          padding: 2rem;
+        }
+
+        .card {
+          background-color: var(--white);
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+          padding: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+          border-bottom: 1px solid var(--light-green);
+          padding-bottom: 1rem;
+          margin-bottom: 1.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .card-title {
+          color: var(--dark-green);
+          margin: 0;
+          font-size: 1.25rem;
+        }
+
+        .btn {
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          border: none;
+          cursor: pointer;
+          font-weight: 500;
+          transition: all 0.3s;
+        }
+
+        .btn-primary {
+          background-color: var(--primary-green);
+          color: var(--white);
+        }
+
+        .btn-primary:hover {
+          background-color: var(--dark-green);
+        }
+
+        .btn-outline {
+          background-color: transparent;
+          border: 1px solid var(--primary-green);
+          color: var(--primary-green);
+        }
+
+        .btn-outline:hover {
+          background-color: var(--light-green);
+        }
+
+        .alert {
+          padding: 1rem;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+        }
+
+        .alert-success {
+          background-color: var(--light-green);
+          color: var(--dark-green);
+          border-left: 4px solid var(--primary-green);
+        }
+
+        .alert-error {
+          background-color: #FFEBEE;
+          color: var(--alert-red);
+          border-left: 4px solid var(--alert-red);
+        }
+
+        /* Appointment List Styles */
+        .appointment-list {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .appointment-item {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          background-color: var(--white);
+          border-radius: 6px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          transition: transform 0.2s;
+        }
+
+        .appointment-item:hover {
+          transform: translateY(-2px);
+        }
+
+        .appointment-time {
+          width: 100px;
+          font-weight: 500;
+          color: var(--dark-green);
+        }
+
+        .appointment-details {
+          flex: 1;
+        }
+
+        .appointment-details h3 {
+          margin: 0 0 0.25rem 0;
+          color: var(--dark-gray);
+        }
+
+        .appointment-details p {
+          margin: 0;
+          color: #666;
+          font-size: 0.9rem;
+        }
+
+        .status-badge {
+          display: inline-block;
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          margin-top: 0.5rem;
+        }
+
+        .status-badge.confirmed {
+          background-color: var(--light-green);
+          color: var(--dark-green);
+        }
+
+        .status-badge.waiting {
+          background-color: #FFF3E0;
+          color: #E65100;
+        }
+
+        .status-badge.completed {
+          background-color: #E3F2FD;
+          color: #1565C0;
+        }
+
+        /* Calendar Styles */
+        .calendar-view {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .calendar-view th {
+          background-color: var(--primary-green);
+          color: var(--white);
+          padding: 0.75rem;
+          text-align: center;
+        }
+
+        .calendar-view td {
+          border: 1px solid #E0E0E0;
+          height: 100px;
+          vertical-align: top;
+          padding: 0.5rem;
+        }
+
+        .calendar-day {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: var(--dark-green);
+        }
+
+        .appointment-slot {
+          background-color: var(--light-green);
+          border-left: 3px solid var(--primary-green);
+          padding: 0.5rem;
+          margin-bottom: 0.5rem;
+          border-radius: 3px;
+          font-size: 0.85rem;
+        }
+
+        .appointment-slot.booked {
+          background-color: #E3F2FD;
+          border-left-color: #2196F3;
+        }
+
+        .calendar-controls {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        /* Form Styles */
+        .form-container {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .form-group {
+          margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: var(--dark-green);
+          font-weight: 500;
+        }
+
+        .form-control {
+          width: 100%;
+          padding: 0.75rem;
+          border: 1px solid #E0E0E0;
+          border-radius: 4px;
+          font-size: 1rem;
+          transition: border 0.3s;
+        }
+
+        .form-control:focus {
+          outline: none;
+          border-color: var(--primary-green);
+          box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .time-slots {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .time-slot {
+          padding: 0.75rem 1rem;
+          background-color: var(--white);
+          border: 1px solid var(--primary-green);
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+
+        .time-slot:hover {
+          background-color: var(--light-green);
+        }
+
+        .time-slot.selected {
+          background-color: var(--primary-green);
+          color: var(--white);
+        }
+
+        /* Toast Notification */
+        .toast-container {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          z-index: 1000;
+        }
+
+        .toast {
+          padding: 1rem 1.5rem;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          animation: slideIn 0.3s ease-out;
+          display: flex;
+          align-items: center;
+        }
+
+        .toast.success {
+          background-color: var(--light-green);
+          color: var(--dark-green);
+          border-left: 4px solid var(--primary-green);
+        }
+
+        .toast.error {
+          background-color: #FFEBEE;
+          color: var(--alert-red);
+          border-left: 4px solid var(--alert-red);
+        }
+
+        .toast i {
+          margin-right: 10px;
+          font-size: 1.2rem;
+        }
+
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .main-container {
+            flex-direction: column;
+          }
+          
+          .sidebar {
+            width: 100%;
+            padding: 1rem;
+          }
+          
+          .content-area {
+            padding: 1rem;
+          }
+
+          .appointment-item {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .appointment-time {
+            margin-bottom: 0.5rem;
+          }
+
+          .appointment-details {
+            margin-bottom: 1rem;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-calendar-check logo-icon"></i>
+            <span>MediSchedule</span>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html">Home</a>
+            <a href="Appointment.html">Appointments</a>
+            <a href="Patients.html">Patients</a>
+            <a href="Doctors.html">Doctors</a>
+            <a href="Settings.html">Settings</a>
+        </nav>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="Appointment.html"><i class="fas fa-calendar-alt"></i> Appointments</a></li>
+                <li><a href="Patients.html"><i class="fas fa-users"></i> Patients</a></li>
+                <li><a href="Doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+                <li><a href="Settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <div class="content-area">
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Your next appointment is with John Smith at 09:00 AM
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Today's Appointments</h2>
+                    <span id="current-date">Monday, June 12, 2023</span>
+                </div>
+                
+                <div class="appointment-list" id="appointments-list">
+                    <!-- Appointments will be loaded here by JavaScript -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Book an Appointment</h2>
+                </div>
+                
+                <div class="form-container">
+                    <div class="form-group">
+                        <label class="form-label">Select Doctor</label>
+                        <select class="form-control" id="doctor-select">
+                            <option value="dr-wilson">Dr. Emily Wilson (General Physician)</option>
+                            <option value="dr-chen">Dr. Michael Chen (Cardiologist)</option>
+                            <option value="dr-lee">Dr. Jessica Lee (Pediatrician)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Select Date</label>
+                        <input type="date" class="form-control" id="appointment-date" min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Available Time Slots</label>
+                        <div class="time-slots" id="time-slots">
+                            <!-- Time slots will be loaded here by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Patient Name</label>
+                        <input type="text" class="form-control" id="patient-name" placeholder="Enter patient name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Reason for Visit</label>
+                        <input type="text" class="form-control" id="visit-reason" placeholder="Enter reason for visit">
+                    </div>
+                    
+                    <button class="btn btn-primary" id="book-appointment-btn">Confirm Appointment</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Weekly Schedule</h2>
+                    <div class="calendar-controls">
+                        <button class="btn btn-outline" id="prev-week"><i class="fas fa-chevron-left"></i></button>
+                        <span id="week-range">June 12-18, 2023</span>
+                        <button class="btn btn-outline" id="next-week"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <table class="calendar-view" id="weekly-calendar">
+                    <thead>
+                        <tr>
+                            <th>Sunday</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="calendar-week">
+                            <!-- Calendar cells will be loaded here by JavaScript -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container">
+        <!-- Toast notifications will appear here -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the application
+            initApp();
+            
+            // Set minimum date to today for appointment booking
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointment-date').min = today;
+            
+            // Load sample data
+            loadSampleData();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        function initApp() {
+            // Set current date display
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+            
+            // Initialize calendar with current week
+            renderCalendarWeek(today);
+        }
+
+        function loadSampleData() {
+            // Sample appointments data
+            const appointments = [
+                {
+                    id: 1,
+                    patientName: "John Smith",
+                    time: "09:00 AM",
+                    reason: "Follow-up Consultation",
+                    status: "confirmed",
+                    doctor: "dr-wilson",
+                    date: getFormattedDate(new Date())
+                },
+                {
+                    id: 2,
+                    patientName: "Sarah Johnson",
+                    time: "10:15 AM",
+                    reason: "Annual Checkup",
+                    status: "waiting",
+                    doctor: "dr-wilson",
+                    date: getFormattedDate(new Date())
+                },
+                {
+                    id: 3,
+                    patientName: "Robert Brown",
+                    time: "11:30 AM",
+                    reason: "Blood Test Results",
+                    status: "completed",
+                    doctor: "dr-wilson",
+                    date: getFormattedDate(new Date(new Date().setDate(new Date().getDate() + 1)))
+                }
+            ];
+            
+            // Store appointments in localStorage for demo purposes
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            
+            // Render appointments
+            renderAppointments(appointments.filter(appt => appt.date === getFormattedDate(new Date())));
+        }
+
+        function setupEventListeners() {
+            // Date selection for booking
+            document.getElementById('appointment-date').addEventListener('change', function() {
+                const selectedDate = this.value;
+                const doctorId = document.getElementById('doctor-select').value;
+                loadAvailableTimeSlots(doctorId, selectedDate);
+            });
+            
+            // Doctor selection change
+            document.getElementById('doctor-select').addEventListener('change', function() {
+                const selectedDate = document.getElementById('appointment-date').value;
+                if (selectedDate) {
+                    loadAvailableTimeSlots(this.value, selectedDate);
+                }
+            });
+            
+            // Book appointment button
+            document.getElementById('book-appointment-btn').addEventListener('click', function() {
+                bookAppointment();
+            });
+            
+            // Calendar navigation
+            document.getElementById('prev-week').addEventListener('click', function() {
+                const currentWeekStart = new Date(document.getElementById('week-range').dataset.startDate);
+                const prevWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() - 7));
+                renderCalendarWeek(prevWeekStart);
+            });
+            
+            document.getElementById('next-week').addEventListener('click', function() {
+                const currentWeekStart = new Date(document.getElementById('week-range').dataset.startDate);
+                const nextWeekStart = new Date(currentWeekStart.setDate(currentWeekStart.getDate() + 7));
+                renderCalendarWeek(nextWeekStart);
+            });
+        }
+
+        function renderAppointments(appointments) {
+            const container = document.getElementById('appointments-list');
+            container.innerHTML = '';
+            
+            if (appointments.length === 0) {
+                container.innerHTML = '<p>No appointments scheduled for today.</p>';
+                return;
+            }
+            
+            appointments.forEach(appt => {
+                const appointmentItem = document.createElement('div');
+                appointmentItem.className = 'appointment-item';
+                
+                let statusClass = '';
+                let statusText = '';
+                switch(appt.status) {
+                    case 'confirmed':
+                        statusClass = 'confirmed';
+                        statusText = 'Confirmed';
+                        break;
+                    case 'waiting':
+                        statusClass = 'waiting';
+                        statusText = 'Waiting';
+                        break;
+                    case 'completed':
+                        statusClass = 'completed';
+                        statusText = 'Completed';
+                        break;
+                }
+                
+                appointmentItem.innerHTML = `
+                    <div class="appointment-time">${appt.time}</div>
+                    <div class="appointment-details">
+                        <h3>${appt.patientName}</h3>
+                        <p>${appt.reason}</p>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <button class="btn btn-outline" data-appointment-id="${appt.id}">Start Visit</button>
+                `;
+                
+                container.appendChild(appointmentItem);
+            });
+        }
+
+        function loadAvailableTimeSlots(doctorId, date) {
+            // In a real app, this would fetch from an API
+            // For demo, we'll generate some sample slots
+            
+            const timeSlotsContainer = document.getElementById('time-slots');
+            timeSlotsContainer.innerHTML = '';
+            
+            // Sample time slots (would normally come from backend)
+            const allSlots = [
+                '09:00 AM', '10:15 AM', '11:30 AM', 
+                '02:00 PM', '03:15 PM', '04:30 PM'
+            ];
+            
+            // Get booked appointments for this doctor/date
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const bookedSlots = appointments.filter(appt => 
+                appt.doctor === doctorId && 
+                appt.date === date
+            ).map(appt => appt.time);
+            
+            // Create buttons for each slot
+            allSlots.forEach(slot => {
+                const isBooked = bookedSlots.includes(slot);
+                const slotButton = document.createElement('button');
+                slotButton.className = 'time-slot';
+                slotButton.textContent = slot;
+                slotButton.dataset.time = slot;
+                
+                if (isBooked) {
+                    slotButton.disabled = true;
+                    slotButton.textContent += ' (Booked)';
+                    slotButton.style.opacity = '0.6';
+                } else {
+                    slotButton.addEventListener('click', function() {
+                        // Toggle selection
+                        document.querySelectorAll('.time-slot').forEach(btn => {
+                            btn.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                    });
+                }
+                
+                timeSlotsContainer.appendChild(slotButton);
+            });
+        }
+
+        function bookAppointment() {
+            const doctorId = document.getElementById('doctor-select').value;
+            const date = document.getElementById('appointment-date').value;
+            const selectedTime = document.querySelector('.time-slot.selected');
+            const patientName = document.getElementById('patient-name').value.trim();
+            const reason = document.getElementById('visit-reason').value.trim();
+            
+            if (!date) {
+                showToast('Please select a date', 'error');
+                return;
+            }
+            
+            if (!selectedTime) {
+                showToast('Please select a time slot', 'error');
+                return;
+            }
+            
+            if (!patientName) {
+                showToast('Please enter patient name', 'error');
+                return;
+            }
+            
+            const time = selectedTime.dataset.time;
+            
+            // Create new appointment
+            const newAppointment = {
+                id: Date.now(), // Simple unique ID for demo
+                patientName,
+                time,
+                reason: reason || 'General Consultation',
+                status: 'confirmed',
+                doctor: doctorId,
+                date: formatDateForStorage(new Date(date))
+            };
+            
+            // Save to "database" (localStorage for demo)
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            appointments.push(newAppointment);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            
+            // Show success message
+            showToast('Appointment booked successfully!', 'success');
+            
+            // Reset form
+            document.getElementById('patient-name').value = '';
+            document.getElementById('visit-reason').value = '';
+            document.querySelectorAll('.time-slot').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Refresh appointments list if booking for today
+            if (date === new Date().toISOString().split('T')[0]) {
+                renderAppointments(appointments.filter(appt => 
+                    appt.date === getFormattedDate(new Date()) && 
+                    appt.doctor === 'dr-wilson' // For demo, only show current doctor
+                ));
+            }
+            
+            // Refresh calendar
+            const currentWeekStart = new Date(document.getElementById('week-range').dataset.startDate);
+            renderCalendarWeek(currentWeekStart);
+        }
+
+        function renderCalendarWeek(startDate) {
+            const calendarWeek = document.getElementById('calendar-week');
+            calendarWeek.innerHTML = '';
+            
+            // Calculate week range
+            const weekStart = new Date(startDate);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            
+            // Update week range display
+            const weekRangeElement = document.getElementById('week-range');
+            weekRangeElement.textContent = ${weekStart.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })};
+            weekRangeElement.dataset.startDate = weekStart.toISOString();
+            
+            // Get appointments for this doctor
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const doctorAppointments = appointments.filter(appt => appt.doctor === 'dr-wilson');
+            
+            // Create cells for each day of the week
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date(weekStart);
+                currentDate.setDate(currentDate.getDate() + i);
+                
+                const cell = document.createElement('td');
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = currentDate.getDate();
+                cell.appendChild(dayElement);
+                
+                // Add appointments for this day
+                const formattedDate = formatDateForStorage(currentDate);
+                const dayAppointments = doctorAppointments.filter(appt => appt.date === formattedDate);
+                
+                dayAppointments.forEach(appt => {
+                    const apptElement = document.createElement('div');
+                    apptElement.className = 'appointment-slot';
+                    apptElement.innerHTML = ${appt.time} - ${appt.patientName};
+                    cell.appendChild(apptElement);
+                });
+                
+                calendarWeek.appendChild(cell);
+            }
+            <nav class="nav-menu">
+        <a href="home.html">Home</a>
+        <a href="appoint.html">Appointments</a>
+        <a href="patient.html">Patients</a>
+        <a href="doc.html">Doctors</a>
+        <a href="settings.html">Settings</a>
+    </nav>
+        }
+
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = toast ${type};
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            toast.innerHTML = <i class="fas ${icon}"></i> ${message};
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Helper functions
+        function getFormattedDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function formatDateForStorage(date) {
+            // Convert to YYYY-MM-DD format
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return ${year}-${month}-${day};
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSchedule - Patients</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --dark-green: #388E3C;
+            --light-green: #C8E6C9;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --alert-red: #F44336;
+            --animation-time: 0.4s;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            transition: background-color var(--animation-time), color var(--animation-time);
+        }
+
+        .header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        .content-area {
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: transform var(--animation-time), box-shadow var(--animation-time);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--dark-green);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            color: var(--dark-green);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-gray);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #E0E0E0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: var(--primary-green);
+            color: white;
+            transition: background-color var(--animation-time), transform var(--animation-time);
+        }
+
+        .btn:hover {
+            background-color: var(--dark-green);
+            transform: scale(1.05);
+        }
+
+        .patient-list {
+            margin-top: 20px;
+        }
+
+        .patient-item {
+            padding: 1rem;
+            background-color: var(--light-green);
+            border-radius: 6px;
+            margin-bottom: 10px;
+            transition: transform var(--animation-time), box-shadow var(--animation-time);
+        }
+
+        .patient-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-user-friends logo-icon"></i>
+            <span>MediSchedule - Patients</span>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Manage Patients</h2>
+                <button class="btn" id="add-patient">Add Patient</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Search Patient</label>
+                <input type="text" class="form-control" id="search-patient" placeholder="Search by name or ID">
+            </div>
+
+            <div class="patient-list" id="patient-list">
+                <!-- Existing patients will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample patient data (you can replace this with your actual data source)
+        const patientsData = [
+            { id: 1, name: 'John Doe', phone: '123-456-7890', email: 'johndoe@example.com' },
+            { id: 2, name: 'Jane Smith', phone: '987-654-3210', email: 'janesmith@example.com' },
+            { id: 3, name: 'Emily Johnson', phone: '555-123-4567', email: 'emilyj@example.com' },
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPatients();
+
+            document.getElementById('add-patient').addEventListener('click', addPatient);
+            document.getElementById('search-patient').addEventListener('input', searchPatient);
+        });
+
+        function loadPatients() {
+            const patientListContainer = document.getElementById('patient-list');
+            patientListContainer.innerHTML = ''; // clear existing patients
+
+            patientsData.forEach(patient => {
+                const patientItem = document.createElement('div');
+                patientItem.className = 'patient-item';
+                patientItem.innerHTML = `
+                    <strong>${patient.name}</strong><br>
+                    Phone: ${patient.phone}<br>
+                    Email: ${patient.email}
+                `;
+                patientListContainer.appendChild(patientItem);
+            });
+        }
+
+        function addPatient() {
+            const name = prompt("Enter patient's name:");
+            const phone = prompt("Enter patient's phone number:");
+            const email = prompt("Enter patient's email:");
+
+            if (name && phone && email) {
+                const newPatient = {
+                    id: patientsData.length + 1,
+                    name: name,
+                    phone: phone,
+                    email: email
+                };
+                patientsData.push(newPatient);
+                loadPatients();
+            }
+        }
+
+        function searchPatient() {
+            const searchTerm = document.getElementById('search-patient').value.toLowerCase();
+            const filteredPatients = patientsData.filter(patient => 
+                patient.name.toLowerCase().includes(searchTerm) || 
+                patient.id.toString().includes(searchTerm)
+            );
+
+            const patientListContainer = document.getElementById('patient-list');
+            patientListContainer.innerHTML = ''; // clear existing patients
+
+            filteredPatients.forEach(patient => {
+                const patientItem = document.createElement('div');
+                patientItem.className = 'patient-item';
+                patientItem.innerHTML = `
+                    <strong>${patient.name}</strong><br>
+                    Phone: ${patient.phone}<br>
+                    Email: ${patient.email}
+                `;
+                patientListContainer.appendChild(patientItem);
+            });
+        }
+    </script>
+</body>
+
+</html>
