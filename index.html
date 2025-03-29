@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSchedule - Smart Healthcare Scheduling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary-blue: #007bff;
+            --dark-blue: #0056b3;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgb(239, 245, 255);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--primary-blue);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+            display: inline-block;
+            margin-top: 1.5rem;
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--light-gray);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        /*New*/
+        :root {
+            --primary-teal: #2a9d8f;  /* Professional teal */
+            --dark-teal: #264653;     /* Dark blue-teal */
+            --accent-coral: #e76f51;  /* Warm accent color */
+            --light-gray: #f8f9fa;
+        }
+
+        /* Updated header */
+        .logo {
+            color: var(--primary-teal);
+        }
+
+        /* Updated hero section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-teal), var(--dark-teal));
+        }
+        .cta-button {
+            background: var(--accent-coral);
+            color: white;
+        }
+
+        .cta-button:hover {
+            background: #d1583a;
+            transform: translateY(-2px);
+        }
+
+        /* Updated feature cards */
+        .feature-card i {
+            color: var(--primary-teal);
+        }
+        .feature-card {
+            border: 2px solid var(--light-gray);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-teal);
+        }
+
+        /* Updated stats section */
+        .stats {
+            background: linear-gradient(45deg, #e9f2f1, #ffffff);
+        }
+
+        .stat-item {
+            color: var(--dark-teal);
+        }
+         /* Updated form elements */
+         input[type="email"] {
+            border: 2px solid var(--primary-teal);
+            border-radius: 25px;
+        }
+
+        button[type="submit"] {
+            background: var(--dark-teal);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">MedSchedule Pro</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Revolutionize Your Healthcare Scheduling</h1>
+        <p>Appointment management system for better patient care</p>
+        <a href="#contact" class="cta-button">Get Started</a>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Smart Scheduling</h3>
+                <p>Appointment optimization and conflict prevention</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Patient Portal</h3>
+                <p>View insights and manage appointments from anywhere</p>
+            </div>
+            <!-- <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Live Analytics</h3>
+                <p>Real-time performance tracking and insights</p>
+            </div> -->
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" data-target="50">0</div>%
+                <div class="stat-label">Reduced Wait Times</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-target="90">0</div>%
+                <div class="stat-label">Patient Satisfaction</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section id="contact" class="contact" style="padding: 4rem 2rem; text-align: center;">
+        <h2>Join Our Beta Program</h2>
+        <form id="contactForm" style="max-width: 500px; margin: 2rem auto;">
+            <input type="email" placeholder="Enter your email" required 
+                   style="padding: 1rem; width: 100%; margin-bottom: 1rem;">
+            <button type="submit" class="cta-button">Request Demo</button>
+        </form>
+    </section> -->
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>About MedSchedule</h4>
+                <p>Transformative healthcare scheduling solutions powered by AI, serving 500+ providers nationwide.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animated stats counter
+        function animateStats() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const increment = target / speed;
+
+                    if(count < target) {
+                        counter.innerText = Math.ceil(count + increment);
+                        setTimeout(updateCount, 10);
+                    } else {
+                        counter.innerText = target;
+                    }
+                }
+                updateCount();
+            });
+        }
+
+        // Trigger animation when stats section is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    animateStats();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.stats'));
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your interest! We will contact you shortly.');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>
