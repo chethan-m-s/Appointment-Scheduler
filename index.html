@@ -190,6 +190,267 @@
         button[type="submit"] {
             background: var(--dark-teal);
         }
+
+        /* New Navigation Styles for Landing Page */
+    .landing-nav {
+        background: linear-gradient(135deg, #388E3C, #2E7D32);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-logo {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-logo img {
+        height: 40px;
+        width: auto;
+    }
+    .nav-menu {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .nav-menu a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        padding: 8px 15px;
+        border-radius: 6px;
+    }
+
+    .nav-menu a:hover {
+        background: rgba(255,255,255,0.1);
+        transform: translateY(-2px);
+    }
+
+     /* Add these styles to the existing CSS */
+     .login-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: -20px;
+        background: white;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        min-width: 200px;
+        z-index: 1000;
+        padding: 0.5rem 0;
+    }
+
+    .login-dropdown:hover .dropdown-content {
+        display: block;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .dropdown-content a {
+        padding: 1rem 1.5rem;
+        color: var(--dark-teal);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-content a:hover {
+        background: var(--light-gray);
+        transform: translateX(5px);
+    }
+
+    .provider-login i {
+        color: var(--primary-teal);
+    }
+
+    .patient-login i {
+        color: var(--patient-green);
+    }
+
+    .login-toggle i {
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .login-dropdown:hover .login-toggle i {
+        transform: rotate(180deg);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+        .dropdown-content {
+            left: 0;
+            right: 0;
+            width: 100vw;
+        }
+    }
+
+    /* Footer Styles */
+.footer {
+    background: var(--dark-teal);
+    color: #ffffff;
+    padding: 4rem 0 0;
+    margin-top: 5rem;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    padding: 0 2rem;
+}
+
+.footer-section {
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    color: var(--accent-coral);
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.footer-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--accent-coral);
+    transform: translateY(-3px);
+}
+
+.contact-info li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+
+.contact-info i {
+    width: 25px;
+    height: 25px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.legal-links {
+    list-style: none;
+}
+
+.legal-links li {
+    margin-bottom: 0.8rem;
+}
+
+.legal-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.legal-links a:hover {
+    color: var(--accent-coral);
+    opacity: 1;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .footer-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .footer-section h4 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 3rem 1rem 0;
+    }
+    
+    .contact-info li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+    
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -200,17 +461,39 @@
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#benefits">Benefits</a>
+                <div class="login-dropdown">
+                    <a href="#login" class="login-toggle">Log In <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="Login.html" class="provider-login">
+                            <i class="fas fa-user-md"></i>
+                            Healthcare Provider
+                        </a>
+                        <a href="Loginpatient.html" class="patient-login">
+                            <i class="fas fa-user-injured"></i>
+                            Patient
+                        </a>
+                    </div>
+                </div>
                 <a href="#contact">Contact</a>
             </div>
         </nav>
     </header>
 
-    <section class="hero">
-        <h1>Revolutionize Your Healthcare Scheduling</h1>
-        <p>Appointment management system for better patient care</p>
-        <a href="#contact" class="cta-button">Get Started</a>
-    </section>
-
+   <!-- Updated Hero Section -->
+<section class="hero">
+    <h1>Revolutionize Your Healthcare Experience</h1>
+    <p>Choose your role to get started</p>
+    <div class="cta-container">
+        <a href="Signup.html" class="cta-button provider-cta">
+            <i class="fas fa-user-md"></i>
+            Get Started as Provider
+        </a>
+        <a href="Signuppatient.html" class="cta-button patient-cta">
+            <i class="fas fa-user-injured"></i>
+            Get Started as Patient
+        </a>
+    </div>
+</section>
     <section id="features" class="features">
         <h2>Key Features</h2>
         <div class="features-grid">
@@ -224,11 +507,13 @@
                 <h3>Patient Portal</h3>
                 <p>View insights and manage appointments from anywhere</p>
             </div>
-            <!-- <div class="feature-card">
+            <div class="feature-card">
                 <i class="fas fa-chart-line"></i>
-                <h3>Live Analytics</h3>
-                <p>Real-time performance tracking and insights</p>
-            </div> -->
+                <h3>Dashboard</h3>
+                <p>Tracking and insights</p>
+            </div>
+
+           
         </div>
     </section>
 

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSchedule Pro - Patient Signup</title>
+    <style>
+        /* Using patient-specific color scheme */
+        :root {
+            --primary-teal: #2a9d8f;
+            --patient-green: #4CAF50;
+            --accent-coral: #e76f51;
+            --light-gray: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-teal), var(--patient-green));
+        }
+
+        .signup-container {
+            margin: auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h2 {
+            color: var(--patient-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: var(--primary-teal);
+            font-size: 0.9rem;
+        }
+
+        .signup-form h2 {
+            color: var(--primary-teal);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--patient-green);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--patient-green);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--primary-teal);
+        }
+
+        .terms {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--patient-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: filter 0.3s;
+        }
+
+        button:hover {
+            filter: brightness(110%);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--primary-teal);
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .emergency-notice {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--accent-coral);
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">
+            <h2>Patient Portal</h2>
+            <p>Begin Your Healthcare Journey</p>
+        </div>
+
+        <form class="signup-form" id="patientSignupForm">
+            <h2>New Patient Registration</h2>
+            
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-user-injured"></i>
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-birthday-cake"></i>
+                    <input type="date" placeholder="Date of Birth" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" placeholder="Phone Number" pattern="[0-9]{10}" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" placeholder="Health Insurance ID">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" id="patientPassword" required>
+                    <i class="fas fa-eye password-toggle" id="togglePatientPassword"></i>
+                </div>
+                <div class="password-strength" id="patientPasswordStrength">
+                    Password strength: <span id="patientStrengthText">Weak</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Confirm Password" id="patientConfirmPassword" required>
+                </div>
+            </div>
+
+            <div class="terms">
+                <input type="checkbox" id="patientTerms" required>
+                <label for="patientTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            </div>
+
+            <button type="submit">Create Account</button>
+
+            <div class="login-link">
+                Already have an account? <a href="Loginpatient.html">Log In</a>
+            </div>
+
+            <div class="emergency-notice">
+                <i class="fas fa-exclamation-triangle"></i>
+                This form is for non-emergency use only
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Password visibility toggle
+        const togglePatientPassword = document.querySelector('#togglePatientPassword');
+        const patientPassword = document.querySelector('#patientPassword');
+
+        togglePatientPassword.addEventListener('click', function () {
+            const type = patientPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            patientPassword.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Password strength checker
+        patientPassword.addEventListener('input', function() {
+            const strength = checkPasswordStrength(this.value);
+            const strengthText = document.getElementById('patientStrengthText');
+            const strengthMeter = document.getElementById('patientPasswordStrength');
+            
+            strengthMeter.style.display = 'block';
+            strengthText.textContent = strength.label;
+            strengthText.style.color = strength.color;
+        });
+
+        function checkPasswordStrength(password) {
+            const hasNumber = /\d/;
+            const hasUpper = /[A-Z]/;
+            const hasLower = /[a-z]/;
+            const hasSpecial = /[!@#$%^&*]/;
+            
+            let strength = 0;
+            if(password.length >= 8) strength++;
+            if(hasNumber.test(password)) strength++;
+            if(hasUpper.test(password)) strength++;
+            if(hasLower.test(password)) strength++;
+            if(hasSpecial.test(password)) strength++;
+
+            if(strength > 4) return { label: 'Strong', color: '#2a9d8f' };
+            if(strength > 2) return { label: 'Medium', color: '#e9c46a' };
+            return { label: 'Weak', color: '#e76f51' };
+        }
+
+        // Form validation
+        document.getElementById('patientSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('patientPassword').value;
+            const confirmPassword = document.getElementById('patientConfirmPassword').value;
+
+            if(password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Add actual registration logic
+            alert('Registration successful! Redirecting...');
+            window.location.href = 'patient-dashboard.html';
+        });
+
+        // Emergency notice animation
+        const emergencyNotice = document.querySelector('.emergency-notice');
+        setInterval(() => {
+            emergencyNotice.style.opacity = emergencyNotice.style.opacity === '0.6' ? '1' : '0.6';
+        }, 1000);
+    </script>
+</body>
+</html>
